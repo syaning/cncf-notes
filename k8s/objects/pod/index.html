@@ -1,0 +1,1799 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Cloud Native Notes">
+      
+      
+      
+        <link rel="canonical" href="https://syaning.github.io/cncf-notes/k8s/objects/pod/">
+      
+      
+        <meta name="author" content="Alex Sun">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.7">
+    
+    
+      
+        <title>Pod - CNCF Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.19753c6b.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.196e0c26.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#4051b5">
+        
+      
+    
+    
+    
+      
+        
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="indigo" data-md-color-accent="">
+      
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pod" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://syaning.github.io/cncf-notes/" title="CNCF Notes" class="md-header-nav__button md-logo" aria-label="CNCF Notes">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            CNCF Notes
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Pod
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/syaning/cncf-notes" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    syaning/cncf-notes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+
+  
+
+<nav class="md-tabs md-tabs--active" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  <li class="md-tabs__item">
+    
+    
+    <a href="../../.." class="md-tabs__link">
+      Home
+    </a>
+  </li>
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+      
+        
+      
+      <a href="../../" class="md-tabs__link md-tabs__link--active">
+        Kubernetes
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+      
+      <a href="../../../ingress-nginx/getting-started/" class="md-tabs__link">
+        Ingress Nginx
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://syaning.github.io/cncf-notes/" title="CNCF Notes" class="md-nav__button md-logo" aria-label="CNCF Notes">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    CNCF Notes
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/syaning/cncf-notes" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    syaning/cncf-notes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../.." class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    <label class="md-nav__link" for="nav-2">
+      Kubernetes
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Kubernetes" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon"></span>
+        Kubernetes
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../" class="md-nav__link">
+      Intro
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-2" type="checkbox" id="nav-2-2" checked>
+    <label class="md-nav__link" for="nav-2-2">
+      Objects
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Objects" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-2">
+        <span class="md-nav__icon md-icon"></span>
+        Objects
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-2-1" type="checkbox" id="nav-2-2-1" >
+    <label class="md-nav__link" for="nav-2-2-1">
+      ClusterInfo
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="ClusterInfo" data-md-level="3">
+      <label class="md-nav__title" for="nav-2-2-1">
+        <span class="md-nav__icon md-icon"></span>
+        ClusterInfo
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../service-account/" class="md-nav__link">
+      ServiceAccount
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../node/" class="md-nav__link">
+      Node
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../namespace/" class="md-nav__link">
+      Namespace
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../component-status/" class="md-nav__link">
+      ComponentStatus
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../event/" class="md-nav__link">
+      Event
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-2-2" type="checkbox" id="nav-2-2-2" >
+    <label class="md-nav__link" for="nav-2-2-2">
+      Controller
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Controller" data-md-level="3">
+      <label class="md-nav__title" for="nav-2-2-2">
+        <span class="md-nav__icon md-icon"></span>
+        Controller
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../replica-set/" class="md-nav__link">
+      ReplicaSet
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../deployment/" class="md-nav__link">
+      Deployment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../stateful-set/" class="md-nav__link">
+      StatefulSet
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../daemon-set/" class="md-nav__link">
+      DaemonSet
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-2-3" type="checkbox" id="nav-2-2-3" checked>
+    <label class="md-nav__link" for="nav-2-2-3">
+      Pod
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Pod" data-md-level="3">
+      <label class="md-nav__title" for="nav-2-2-3">
+        <span class="md-nav__icon md-icon"></span>
+        Pod
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Pod
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
+      Pod
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    简介
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pod_1" class="md-nav__link">
+    Pod 生命周期
+  </a>
+  
+    <nav class="md-nav" aria-label="Pod 生命周期">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conditions" class="md-nav__link">
+    Conditions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restart-policy" class="md-nav__link">
+    Restart Policy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    容器管理
+  </a>
+  
+    <nav class="md-nav" aria-label="容器管理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#imagepullpolicy" class="md-nav__link">
+    imagePullPolicy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    端口
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    环境变量
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    资源限制
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#volume" class="md-nav__link">
+    Volume 挂载
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probe" class="md-nav__link">
+    Probe
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hooks" class="md-nav__link">
+    hooks
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#init-container" class="md-nav__link">
+    Init Container
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qos" class="md-nav__link">
+    QoS
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    调度
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    网络配置
+  </a>
+  
+    <nav class="md-nav" aria-label="网络配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hostnetwork" class="md-nav__link">
+    hostNetwork
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dnspolicy" class="md-nav__link">
+    dnsPolicy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dnsconfig" class="md-nav__link">
+    dnsConfig
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hostaliases" class="md-nav__link">
+    hostAliases
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    参考
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../horizontal-pod-autoscaler/" class="md-nav__link">
+      HorizontalPodAutoscaler
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-2-4" type="checkbox" id="nav-2-2-4" >
+    <label class="md-nav__link" for="nav-2-2-4">
+      Service
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Service" data-md-level="3">
+      <label class="md-nav__title" for="nav-2-2-4">
+        <span class="md-nav__icon md-icon"></span>
+        Service
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../service/" class="md-nav__link">
+      Service
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../endpoints/" class="md-nav__link">
+      Endpoints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ingress/" class="md-nav__link">
+      Ingress
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-2-5" type="checkbox" id="nav-2-2-5" >
+    <label class="md-nav__link" for="nav-2-2-5">
+      Config
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Config" data-md-level="3">
+      <label class="md-nav__title" for="nav-2-2-5">
+        <span class="md-nav__icon md-icon"></span>
+        Config
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../configmap/" class="md-nav__link">
+      ConfigMap
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../secret/" class="md-nav__link">
+      Secret
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-2-6" type="checkbox" id="nav-2-2-6" >
+    <label class="md-nav__link" for="nav-2-2-6">
+      Job
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Job" data-md-level="3">
+      <label class="md-nav__title" for="nav-2-2-6">
+        <span class="md-nav__icon md-icon"></span>
+        Job
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../job/" class="md-nav__link">
+      Job
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../cronjob/" class="md-nav__link">
+      CronJob
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-2-7" type="checkbox" id="nav-2-2-7" >
+    <label class="md-nav__link" for="nav-2-2-7">
+      Auth
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Auth" data-md-level="3">
+      <label class="md-nav__title" for="nav-2-2-7">
+        <span class="md-nav__icon md-icon"></span>
+        Auth
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../role/" class="md-nav__link">
+      Role
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../role-binding/" class="md-nav__link">
+      RoleBinding
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../cluster-role/" class="md-nav__link">
+      ClusterRole
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../cluster-role-binding/" class="md-nav__link">
+      ClusterRoleBinding
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-2-8" type="checkbox" id="nav-2-2-8" >
+    <label class="md-nav__link" for="nav-2-2-8">
+      Storage
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Storage" data-md-level="3">
+      <label class="md-nav__title" for="nav-2-2-8">
+        <span class="md-nav__icon md-icon"></span>
+        Storage
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../persistent-volume/" class="md-nav__link">
+      PersistentVolume
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../persistent-volume-claim/" class="md-nav__link">
+      PersistentVolumeClaim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../storage-class/" class="md-nav__link">
+      StorageClass
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-2-9" type="checkbox" id="nav-2-2-9" >
+    <label class="md-nav__link" for="nav-2-2-9">
+      Resource Management
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Resource Management" data-md-level="3">
+      <label class="md-nav__title" for="nav-2-2-9">
+        <span class="md-nav__icon md-icon"></span>
+        Resource Management
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pod-disruption-budget/" class="md-nav__link">
+      PodDisruptionBudget
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../resource-quota/" class="md-nav__link">
+      ResourceQuota
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-3" type="checkbox" id="nav-2-3" >
+    <label class="md-nav__link" for="nav-2-3">
+      Guides
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Guides" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-3">
+        <span class="md-nav__icon md-icon"></span>
+        Guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guides/components/" class="md-nav__link">
+      基础组件
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guides/api/" class="md-nav__link">
+      API
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guides/pod-schedule/" class="md-nav__link">
+      Pod 调度
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guides/rbac/" class="md-nav__link">
+      RBAC
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guides/gpu/" class="md-nav__link">
+      GPU
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-4" type="checkbox" id="nav-2-4" >
+    <label class="md-nav__link" for="nav-2-4">
+      Tools
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Tools" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-4">
+        <span class="md-nav__icon md-icon"></span>
+        Tools
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tools/kubectl/" class="md-nav__link">
+      kubectl
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" >
+    <label class="md-nav__link" for="nav-3">
+      Ingress Nginx
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Ingress Nginx" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon"></span>
+        Ingress Nginx
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../ingress-nginx/getting-started/" class="md-nav__link">
+      Getting Started
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../ingress-nginx/configmap/" class="md-nav__link">
+      ConfigMap
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../ingress-nginx/annotations/" class="md-nav__link">
+      Annotations
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    简介
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pod_1" class="md-nav__link">
+    Pod 生命周期
+  </a>
+  
+    <nav class="md-nav" aria-label="Pod 生命周期">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conditions" class="md-nav__link">
+    Conditions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restart-policy" class="md-nav__link">
+    Restart Policy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    容器管理
+  </a>
+  
+    <nav class="md-nav" aria-label="容器管理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#imagepullpolicy" class="md-nav__link">
+    imagePullPolicy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    端口
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    环境变量
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    资源限制
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#volume" class="md-nav__link">
+    Volume 挂载
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probe" class="md-nav__link">
+    Probe
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hooks" class="md-nav__link">
+    hooks
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#init-container" class="md-nav__link">
+    Init Container
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qos" class="md-nav__link">
+    QoS
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    调度
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    网络配置
+  </a>
+  
+    <nav class="md-nav" aria-label="网络配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hostnetwork" class="md-nav__link">
+    hostNetwork
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dnspolicy" class="md-nav__link">
+    dnsPolicy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dnsconfig" class="md-nav__link">
+    dnsConfig
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hostaliases" class="md-nav__link">
+    hostAliases
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    参考
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="pod">Pod<a class="headerlink" href="#pod" title="Permanent link">&para;</a></h1>
+<h2 id="_1">简介<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Pod 是 k8s 中最小的执行单元，是对容器的一层包装，每个 Pod 内可以有一个或多个容器</li>
+<li>Pod 内的容器共享网络和存储，互相之间可以通过 <code>localhost</code> 来进行通信</li>
+<li>Pod是非持久的、一次性的 (ephemeral, disposable)</li>
+<li>Pod 不会自愈，当一个 Pod 失败后，会被删除</li>
+<li>Controller（例如 Deployment，StatefulSet，DaemonSet）用于管理 Pod，对 Pod 进行调度，副本管理，滚动升级等</li>
+<li>很少直接使用 Pod，一般都是通过 Controller 来使用</li>
+<li>Pod template 也通常不直接使用，而是放在 Controller template 里</li>
+</ul>
+<h2 id="pod_1">Pod 生命周期<a class="headerlink" href="#pod_1" title="Permanent link">&para;</a></h2>
+<h3 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>Pending</code>：尚未调度，镜像在下载中，或者找不到合适的调度节点</li>
+<li><code>Running</code>：被调度到一个节点上，其中至少一个容器还在运行中，启动中或者重启中</li>
+<li><code>Succeeded</code>：所有容器运行成功然后终止，且不会重启</li>
+<li><code>Failed</code>：所有容器已经终止运行，且至少有一个容器失败而终止</li>
+<li><code>Unknow</code>：状态未知</li>
+</ul>
+<div class="highlight"><pre><span></span><code>$ kubectl describe po nginx-66f9f9cfd5-2w97n
+Name:               nginx-66f9f9cfd5-2w97n
+Namespace:          default
+Labels:             <span class="nv">app</span><span class="o">=</span>nginx
+                    pod-template-hash<span class="o">=</span>66f9f9cfd5
+Status:             Running
+
+$ kubectl get po nginx-66f9f9cfd5-2w97n -oyaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-66f9f9cfd5-2w97n
+  namespace: default
+status:
+  phase: Running
+</code></pre></div>
+<h3 id="conditions">Conditions<a class="headerlink" href="#conditions" title="Permanent link">&para;</a></h3>
+<p>每个 Pod 有一组 Condition，表示 Pod 在各个阶段的状态。每个 Condition 包含：</p>
+<ul>
+<li><code>lastProbeTime</code></li>
+<li><code>lastTransitionTime</code></li>
+<li><code>message</code></li>
+<li><code>reason</code></li>
+<li><code>status</code>：可取值为 <code>True</code>，<code>False</code> 和 <code>Unknown</code></li>
+<li><code>type</code></li>
+<li><code>PodScheduled</code>：Pod 被调度到 Node 上</li>
+<li><code>Ready</code>：Pod 已经可以接受请求，并且应当加入到 Service 的负载均衡池中</li>
+<li><code>Initialized</code>：所有的 Init Container 都起来了</li>
+<li><code>Unschedulable</code>：暂时无法调度，可能是由于没有满足条件的 Node</li>
+<li><code>ContainersReady</code>：所有的容器都 ready</li>
+</ul>
+<div class="highlight"><pre><span></span><code>$ kubectl describe po nginx-66f9f9cfd5-2w97n
+Name:               nginx-66f9f9cfd5-2w97n
+Namespace:          default
+Labels:             <span class="nv">app</span><span class="o">=</span>nginx
+                    pod-template-hash<span class="o">=</span>66f9f9cfd5
+Status:             Running
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+
+$ kubectl get po nginx-66f9f9cfd5-2w97n -oyaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-66f9f9cfd5-2w97n
+  namespace: default
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: <span class="s2">&quot;2019-09-03T16:50:59Z&quot;</span>
+    status: <span class="s2">&quot;True&quot;</span>
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: <span class="s2">&quot;2019-09-09T11:45:47Z&quot;</span>
+    status: <span class="s2">&quot;True&quot;</span>
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: <span class="s2">&quot;2019-09-09T11:45:47Z&quot;</span>
+    status: <span class="s2">&quot;True&quot;</span>
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: <span class="s2">&quot;2019-09-03T16:48:33Z&quot;</span>
+    status: <span class="s2">&quot;True&quot;</span>
+    type: PodScheduled
+  phase: Running
+</code></pre></div>
+<h3 id="restart-policy">Restart Policy<a class="headerlink" href="#restart-policy" title="Permanent link">&para;</a></h3>
+<p><code>restartPolicy</code> 对 Pod 内的所有容器都生效，可取值为：</p>
+<ul>
+<li><code>Always</code> (默认值)</li>
+<li><code>OnFailure</code></li>
+<li><code>Never</code></li>
+</ul>
+<h2 id="_2">容器管理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="imagepullpolicy">imagePullPolicy<a class="headerlink" href="#imagepullpolicy" title="Permanent link">&para;</a></h3>
+<p><code>imagePullPolicy</code> 指定了镜像的拉取策略，可取值为：</p>
+<ul>
+<li><code>Always</code></li>
+<li><code>Never</code></li>
+<li><code>IfNotPresent</code></li>
+</ul>
+<p>如果使用的镜像 tag 为 <code>latest</code>，则默认值为 <code>Always</code>，否则默认值为 <code>IfNotPresent</code>。</p>
+<h3 id="_3">端口<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="_4">环境变量<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>环境变量可以来自于：</p>
+<ul>
+<li>直接设置的值</li>
+<li>ConfigMap / Secret</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my-service</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">containers</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my-service</span>
+    <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my-service</span>
+    <span class="nt">env</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">MYSQL_HOST</span>
+      <span class="nt">valueFrom</span><span class="p">:</span>
+        <span class="nt">configMapRef</span><span class="p">:</span>
+          <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mysql-conf</span>
+          <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">host</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">MYSQL_PORT</span>
+      <span class="nt">value</span><span class="p">:</span> <span class="s">&quot;3306&quot;</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">USERNAME</span>
+      <span class="nt">valueFrom</span><span class="p">:</span>
+        <span class="nt">secretKeyRef</span><span class="p">:</span>
+          <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mysql-secret</span>
+          <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">username</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">PASSWORD</span>
+      <span class="nt">valueFrom</span><span class="p">:</span>
+        <span class="nt">secretKeyRef</span><span class="p">:</span>
+          <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mysql-secret</span>
+          <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">password</span>
+</code></pre></div>
+<h3 id="_5">资源限制<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my-service</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">containers</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my-service</span>
+    <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my-service</span>
+    <span class="nt">resources</span><span class="p">:</span>
+      <span class="nt">limits</span><span class="p">:</span>
+        <span class="nt">cpu</span><span class="p">:</span> <span class="s">&quot;1&quot;</span>
+        <span class="nt">memory</span><span class="p">:</span> <span class="s">&quot;200Mi&quot;</span>
+      <span class="nt">requests</span><span class="p">:</span>
+        <span class="nt">cpu</span><span class="p">:</span> <span class="s">&quot;500m&quot;</span>
+        <span class="nt">memory</span><span class="p">:</span> <span class="s">&quot;100Mi&quot;</span>
+</code></pre></div>
+<p>其中：</p>
+<ul>
+<li>cpu 可以是数字，表示核数；也可以是类似 <code>500m</code> 的形式，<code>1000m</code> 与 <code>1</code> 含义相同</li>
+<li>memory 可以是数字，表示 bytes；也可以带后缀作为单位，可选值为 <code>E, P, T, G, M, K, Ei, Pi, Ti, Gi, Mi, Ki</code></li>
+</ul>
+<p>更多内容可以参考：</p>
+<ul>
+<li><a href="https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/">Assign Memory Resources to Containers and Pods</a></li>
+<li><a href="https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/">Assign CPU Resources to Containers and Pods</a></li>
+</ul>
+<p>如果需要使用 GPU 资源，参考 <a href="../../guides/gpu/">GPU</a>.</p>
+<h3 id="volume">Volume 挂载<a class="headerlink" href="#volume" title="Permanent link">&para;</a></h3>
+<p>参考 <a href="../persistent-volume/">Persistent Volume</a>.</p>
+<h3 id="probe">Probe<a class="headerlink" href="#probe" title="Permanent link">&para;</a></h3>
+<p>可以为 Pod 内的容器设置探针，检测容器的状态。</p>
+<p>有如下三种探针：</p>
+<ul>
+<li><code>livenessProbe</code>: 检测容器是否运行。如果检测失败，那么 kubelet 会 kill 掉容器</li>
+<li><code>readinessProbe</code>: 检测容器是否可以接收请求。如果检测失败，那么 endpoints controller 会从 Service 的 endpoints 列表中移除该 Pod 的 IP</li>
+<li><code>startupProbe</code>: 检测容器内的应用是否已经起来，在该探针检测成功之前，其它探针都会被禁用。对于一些启动比较慢的应用，可以使用该探针，从而避免 <code>livenessProbe</code> 过早检测失败导致频繁重启</li>
+</ul>
+<p>探针可以执行以下三种操作：</p>
+<ul>
+<li>执行一条命令，状态码为0则成功</li>
+<li>TCP端口，可以连接则成功</li>
+<li>HTTP Get 请求，返回码为 2xx 或者 3xx 则成功</li>
+</ul>
+<p>例如：</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">goproxy</span>
+  <span class="nt">labels</span><span class="p">:</span>
+    <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">goproxy</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">containers</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">goproxy</span>
+    <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">k8s.gcr.io/goproxy:0.1</span>
+    <span class="nt">ports</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">containerPort</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">8080</span>
+    <span class="nt">readinessProbe</span><span class="p">:</span>
+      <span class="nt">tcpSocket</span><span class="p">:</span>
+        <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">8080</span>
+      <span class="nt">initialDelaySeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+      <span class="nt">periodSeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
+    <span class="nt">livenessProbe</span><span class="p">:</span>
+      <span class="nt">tcpSocket</span><span class="p">:</span>
+        <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">8080</span>
+      <span class="nt">initialDelaySeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">15</span>
+      <span class="nt">periodSeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">20</span>
+</code></pre></div>
+<h3 id="hooks">hooks<a class="headerlink" href="#hooks" title="Permanent link">&para;</a></h3>
+<h2 id="init-container">Init Container<a class="headerlink" href="#init-container" title="Permanent link">&para;</a></h2>
+<h2 id="qos">QoS<a class="headerlink" href="#qos" title="Permanent link">&para;</a></h2>
+<p>在创建一个 Pod 后，会自动为该 Pod 分配一个 QoS (Quality of Service) 等级。QoS 有如下三种：</p>
+<ul>
+<li><code>Guaranteed</code>：Pod 中的每个容器都设置了 CPU 和 Memory 的请求和限制，且请求和限制的值相等</li>
+<li><code>Burstable</code>：Pod 中至少有一个容器的资源设置不满足 <code>Guaranteed</code></li>
+<li><code>BestEffort</code>：Pod 中每一个容器都没有设置 CPU 和 Memory 的请求和限制</li>
+</ul>
+<p>更多信息参考 <a href="https://kubernetes.io/docs/tasks/configure-pod-container/quality-service-pod/">Configure Quality of Service for Pods</a>.</p>
+<h2 id="_6">调度<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>参考 <a href="../../guides/pod-schedule/">Pod 调度</a>。</p>
+<h2 id="_7">网络配置<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h3 id="hostnetwork">hostNetwork<a class="headerlink" href="#hostnetwork" title="Permanent link">&para;</a></h3>
+<h3 id="dnspolicy">dnsPolicy<a class="headerlink" href="#dnspolicy" title="Permanent link">&para;</a></h3>
+<h3 id="dnsconfig">dnsConfig<a class="headerlink" href="#dnsconfig" title="Permanent link">&para;</a></h3>
+<h3 id="hostaliases">hostAliases<a class="headerlink" href="#hostaliases" title="Permanent link">&para;</a></h3>
+<p>参考 <a href="https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/">Adding entries to Pod /etc/hosts with HostAliases</a>.</p>
+<h2 id="_8">参考<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://kubernetes.io/docs/concepts/workloads/pods/">Pod Overview</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/workloads/pods/pod/">Pods</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/">Pod Lifecycle</a></li>
+<li><a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/">Configure Liveness, Readiness and Startup Probes</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/workloads/pods/init-containers/">Init Containers</a></li>
+</ul>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../daemon-set/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                DaemonSet
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../horizontal-pod-autoscaler/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                HorizontalPodAutoscaler
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2018 - Present Alex Sun
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/syaning/cncf-notes" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/vendor.0ac82a11.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.f81dfb4d.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../../..",
+          features: ['navigation.instant', 'navigation.tabs'],
+          search: Object.assign({
+            worker: "../../../assets/javascripts/worker/search.4ac00218.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
