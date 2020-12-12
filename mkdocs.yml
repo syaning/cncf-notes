@@ -1,0 +1,56 @@
+site_name: CNCF Notes
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.tabs
+nav:
+  - Kubernetes:
+    - Intro: k8s/index.md
+    - Objects:
+      - ClusterInfo:
+        - ServiceAccount: k8s/objects/service-account.md
+        - Node: k8s/objects/node.md
+        - Namespace: k8s/objects/namespace.md
+        - ComponentStatus: k8s/objects/component-status.md
+        - Event: k8s/objects/event.md
+      - Controller:
+        - ReplicaSet: k8s/objects/replica-set.md
+        - Deployment: k8s/objects/deployment.md
+        - StatefulSet: k8s/objects/stateful-set.md
+        - DaemonSet: k8s/objects/daemon-set.md
+      - Pod:
+        - Pod: k8s/objects/pod.md
+        - HorizontalPodAutoscaler: k8s/objects/horizontal-pod-autoscaler.md
+      - Service:
+        - Service: k8s/objects/service.md
+        - Endpoints: k8s/objects/endpoints.md
+        - Ingress: k8s/objects/ingress.md
+      - Config:
+        - ConfigMap: k8s/objects/configmap.md
+        - Secret: k8s/objects/secret.md
+      - Job:
+        - Job: k8s/objects/job.md
+        - CronJob: k8s/objects/cronjob.md
+      - Auth:
+        - Role: k8s/objects/role.md
+        - RoleBinding: k8s/objects/role-binding.md
+        - ClusterRole: k8s/objects/cluster-role.md
+        - ClusterRoleBinding: k8s/objects/cluster-role-binding.md
+      - Storage:
+        - PersistentVolume: k8s/objects/persistent-volume.md
+        - PersistentVolumeClaim: k8s/objects/persistent-volume-claim.md
+        - StorageClass: k8s/objects/storage-class.md
+      - Resource Management:
+        - PodDisruptionBudget: k8s/objects/pod-disruption-budget.md
+        - ResourceQuota: k8s/objects/resource-quota.md
+    - Guides:
+      - 基础组件: k8s/guides/components.md
+      - API: k8s/guides/api.md
+      - Pod 调度: k8s/guides/pod-schedule.md
+      - RBAC: k8s/guides/rbac.md
+      - GPU: k8s/guides/gpu.md
+  - Ingress Nginx:
+    - Getting Started: ingress-nginx/getting-started.md
+    - ConfigMap: ingress-nginx/configmap.md
+    - Annotations: ingress-nginx/annotations.md
