@@ -35,8 +35,7 @@ data:
   ssl-protocols: SSLv2
 ```
 
-::: warning
-需要特别注意的是，ConfigMap 中 key 和 value 都是字符串，因此对于数字、`true`、`false`，都需要用引号引起来。
-:::
+!!! tip
+    需要特别注意的是，ConfigMap 中 key 和 value 都是字符串，因此对于数字、`true`、`false`，都需要用引号引起来。
 
 完整的配置列表可以参考 [ConfigMaps](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/).

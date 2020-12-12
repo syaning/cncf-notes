@@ -1,10 +1,22 @@
 site_name: CNCF Notes
+site_url: https://syaning.github.io/cncf-notes/
+site_author: Alex Sun
+site_description: >-
+  Cloud Native Notes
+
+repo_name: syaning/cncf-notes
+repo_url: https://github.com/syaning/cncf-notes
+edit_uri: ""
+
+copyright: Copyright &copy; 2018 - Present Alex Sun
 
 theme:
   name: material
   features:
     - navigation.instant
     - navigation.tabs
+  palette:
+    primary: indigo
 
 plugins:
   - search
@@ -14,7 +26,38 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/syaning/cncf-notes
 
+markdown_extensions:
+  - markdown.extensions.admonition
+  - markdown.extensions.attr_list
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  
 nav:
+  - Home: index.md
   - Kubernetes:
     - Intro: k8s/index.md
     - Objects:
@@ -60,6 +103,8 @@ nav:
       - Pod 调度: k8s/guides/pod-schedule.md
       - RBAC: k8s/guides/rbac.md
       - GPU: k8s/guides/gpu.md
+    - Tools:
+      - kubectl: k8s/tools/kubectl.md
   - Ingress Nginx:
     - Getting Started: ingress-nginx/getting-started.md
     - ConfigMap: ingress-nginx/configmap.md
