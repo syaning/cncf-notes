@@ -1,9 +1,19 @@
 site_name: CNCF Notes
+
 theme:
   name: material
   features:
     - navigation.instant
     - navigation.tabs
+
+plugins:
+  - search
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/syaning/cncf-notes
+
 nav:
   - Kubernetes:
     - Intro: k8s/index.md
